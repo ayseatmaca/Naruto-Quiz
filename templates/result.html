@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="jiraiya-bg">
+<div class="card rounded-lg shadow-lg p-8 text-center">
+    <h2 class="text-3xl font-bold text-yellow-400 mb-6">Yarışma Sonuçları</h2>
+    
+    <div class="mb-8">
+        <div class="text-5xl font-bold text-yellow-400 mb-2">{{ score }}</div>
+        <div class="text-gray-300">Toplam Puan</div>
+    </div>
+    
+    <div class="bg-gray-800 rounded-lg p-6 mb-8 text-left">
+        <h3 class="text-xl font-bold text-yellow-400 mb-4">Etaplar</h3>
+        <div class="space-y-4">
+            {% for i in range(1, 5) %}
+            <div class="flex justify-between items-center">
+                <div>Etap {{ i }}</div>
+                <div class="flex items-center">
+                    <span class="mr-2">{{ stage_scores[i-1] }} puan</span>
+                    {% if stage_passed[i-1] %}
+                        <span class="text-green-500">✓ Geçti</span>
+                    {% else %}
+                        <span class="text-red-500">✗ Kaldı</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="mb-8 flex flex-col items-center">
+        <div class="relative w-48 h-48 mb-6 overflow-hidden rounded-full border-4 border-yellow-400 shadow-lg">
+            <img src="{{ url_for('static', filename='jiraiya-bg.avif') }}" alt="Jiraiya" class="w-full h-full object-cover">
+        </div>
+        
+        {% if score_percentage >= 80 %}
+            <p class="text-2xl text-green-400 font-bold mb-4">İşte bu kral tebrikler! Jiraya Sensei bunu görse gurur duyardı. 🎯</p>
+            <p class="text-gray-300">Naruto bile seninle gurur duyardı! Tüm zorlukların üstesinden geldin.</p>
+        {% elif score_percentage >= 60 %}
+            <p class="text-2xl text-green-300 font-bold mb-4">bir dikkatimi çekti iyi iyi devam et bakalım! ✨</p>
+            <p class="text-gray-300">Biraz daha çalışarak en iyi olabilirsin!</p>
+        {% elif score_percentage >= 40 %}
+            <p class="text-2xl text-yellow-400 font-bold mb-4">Ortalıkta naruto fanı oldugunu söyeyip gezmiyorsundur umaraım 💪</p>
+            <p class="text-gray-300">Sakın pes etme! Her hata seni daha güçlü yapar.</p>
+        {% else %}
+            <p class="text-2xl text-red-400 font-bold mb-4">Üzgün değiilim git tekrardan izle böyle de olmaz. 🍥</p>
+            <p class="text-gray-300">Naruto da ilk başlarda çok zorlanmıştı, sakın pes etme!</p>
+        {% endif %}
+    </div>
+    
+    <div class="mt-8">
+        <a href="{{ url_for('index') }}" class="btn-primary inline-block mt-4">Ana Sayfaya Dön</a>
+    </div>
+</div>
+{% endblock %}

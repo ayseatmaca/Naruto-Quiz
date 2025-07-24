@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naruto Bilgi Yarışması</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-image: url("{{ url_for('static', filename='jiraiya-bg.avif') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: rgba(0, 0, 0, 0.8);
+            background-blend-mode: overlay;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+        
+        .jiraiya-bg {
+            background-image: url("{{ url_for('static', filename='jiraiya-bg.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: rgba(0, 0, 0, 0.8);
+            background-blend-mode: overlay;
+        }
+
+        .card {
+            background-color: rgba(26, 32, 44, 0.9);
+            backdrop-filter: blur(5px);
+            border: 1px solid #4a5568;
+        }
+        .btn-primary {
+            background-color: #e2b909;
+            color: #1a202c;
+            transition: all 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #f6e05e;
+            transform: translateY(-2px);
+        }
+        .option-btn {
+            background-color: #2d3748;
+            transition: all 0.2s;
+        }
+        .option-btn:hover {
+            background-color: #4a5568;
+            transform: translateX(5px);
+        }
+        .option-btn.correct {
+            background-color: #48bb78;
+        }
+        .option-btn.wrong {
+            background-color: #f56565;
+        }
+    </style>
+</head>
+<body class="min-h-screen naruto-bg">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-yellow-400 mb-2">NARUTO BİLGİ YARIŞMASI</h1>
+            <p class="text-xl text-gray-300">Ninja yeteneklerini test et!</p>
+        </header>
+        
+        <main class="max-w-3xl mx-auto">
+            {% block content %}{% endblock %}
+        </main>
+        
+        <footer class="mt-12 text-center text-gray-400 text-sm">
+            <p>© 2025 Naruto Quiz - Tüm hakları saklıdır.</p>
+        </footer>
+    </div>
+    
+    {% block scripts %}{% endblock %}
+    
+    <script>
+        // Seçeneklere tıklama işlevi
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tıklanan seçeneği işaretleme
+            document.querySelectorAll('.option-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Tüm seçeneklerden aktif sınıfını kaldır
+                    document.querySelectorAll('.option-btn').forEach(btn => {
+                        btn.classList.remove('bg-blue-600', 'text-white');
+                    });
+                    
+                    // Seçili seçeneği işaretle
+                    this.classList.add('bg-blue-600', 'text-white');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

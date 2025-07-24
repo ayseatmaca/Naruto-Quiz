@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="jiraiya-bg min-h-screen flex items-center justify-center p-4">
+    <div class="card max-w-4xl w-full mx-auto p-8">
+        <h1 class="text-3xl font-bold text-yellow-400 mb-6 text-center">Naruto Bilgi Yarışması Hakkında</h1>
+        
+        <div class="prose prose-invert max-w-none">
+            <p class="text-lg mb-4">
+                Naruto Bilgi Yarışması'na hoş geldiniz! Bu uygulama, Naruto anime ve manga serisinin sadık hayranları için özel olarak hazırlanmış bir bilgi yarışmasıdır.
+            </p>
+            
+            <h2 class="text-2xl text-yellow-400 mt-8 mb-4">Hikaye</h2>
+            <p class="mb-4">
+                Uzun yıllar önce, Konoha köyünde doğan Naruto Uzumaki, içinde Dokuz Kuyruklu Tilki Şeytanı (Kurama) taşıması nedeniyle köy halkı tarafından dışlanmış bir çocuktu. Ancak o, asla pes etmedi ve Hokage olma hayalinden vazgeçmedi. Bu yarışma, Naruto'nun yolculuğundan ilham alarak hazırlandı.
+            </p>
+            
+            <h2 class="text-2xl text-yellow-400 mt-8 mb-4">Jiraiya'nın Mirası</h2>
+            <p class="mb-4">
+                Jiraiya, Efsanevi Sannin'lerden biri ve Naruto'nun en önemli hocalarındandı. "Efsanevi Eğik Şişko" olarak da bilinen Jiraiya, güçlü bir ninja ve yazardı. Bu arka plan, onun anısına saygı olarak seçilmiştir.
+            </p>
+            
+            <h2 class="text-2xl text-yellow-400 mt-8 mb-4">Yarışma Hakkında</h2>
+            <ul class="list-disc pl-6 mb-6">
+                <li class="mb-2">Toplam 4 etaptan oluşmaktadır</li>
+                <li class="mb-2">Her etapta 5 soru bulunmaktadır</li>
+                <li class="mb-2">Her doğru cevap puan kazandırır</li>
+                <li class="mb-2">Sonraki etaba geçmek için en az 2 doğru yapmalısınız</li>
+            </ul>
+            
+            <div class="text-center mt-8">
+                <a href="{{ url_for('index') }}" class="btn-primary inline-block">Ana Sayfaya Dön</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

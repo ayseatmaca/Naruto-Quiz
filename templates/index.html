@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card rounded-lg shadow-lg p-8 mb-8 text-center">
+    <h2 class="text-3xl font-bold text-yellow-400 mb-6">Naruto Bilgi Yarışmasına Hoş Geldin!</h2>
+    <p class="text-lg mb-8">4 etaptan oluşan bu zorlu yarışmada Naruto hakkındaki bilgini test et!</p>
+    <p class="mb-8 text-gray-300">Her etapta 5 soru sorulacak ve en az 2 doğru yaparak bir sonraki etaba geçebileceksin.</p>
+    
+    <div class="mt-6 mb-8">
+        <a href="{{ url_for('about') }}" class="text-yellow-400 hover:text-yellow-300 text-sm font-semibold">
+            Hikaye & Hakkında
+        </a>
+    </div>
+    
+    <div class="mt-10">
+        <a href="{{ url_for('start_quiz') }}" class="btn-primary font-bold py-3 px-8 rounded-full text-lg inline-block">
+            Başla! 🍥
+        </a>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="card p-6 rounded-lg">
+        <h3 class="text-xl font-bold text-yellow-400 mb-3">4 Etap</h3>
+        <p class="text-gray-300">Toplam 4 farklı etapta bilgini test et</p>
+    </div>
+    <div class="card p-6 rounded-lg">
+        <h3 class="text-xl font-bold text-yellow-400 mb-3">20+ Soru</h3>
+        <p class="text-gray-300">Toplam 20'den fazla farklı soru</p>
+    </div>
+    <div class="card p-6 rounded-lg">
+        <h3 class="text-xl font-bold text-yellow-400 mb-3">Zorluk Seviyeleri</h3>
+        <p class="text-gray-300">Her etapta artan zorluk seviyeleri</p>
+    </div>
+</div>
+{% endblock %}

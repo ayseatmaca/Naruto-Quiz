@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card rounded-lg shadow-lg p-6 mb-8">
+    <div class="flex justify-between items-center mb-6">
+        <div class="text-yellow-400 font-bold">Etap {{ stage }}/4</div>
+        <div class="text-gray-300">Soru <span class="font-bold">{{ question_number }}/5</span></div>
+    </div>
+    
+    <div class="bg-gray-800 rounded-lg p-6 mb-8">
+        <h2 class="text-2xl font-bold mb-6">{{ question['question'] }}</h2>
+        
+        <form id="answer-form" action="{{ url_for('check_answer') }}" method="POST">
+            <input type="hidden" name="question_id" value="{{ question['id'] }}">
+            <div class="space-y-4">
+                {% for option in question['options'] %}
+                <button 
+                    type="button"
+                    onclick="selectOption(this, {{ loop.index }})"
+                    class="option-btn w-full text-left p-4 rounded-lg transition-all duration-200 bg-gray-700 hover:bg-gray-600"
+                    data-answer="{{ loop.index }}"
+                >
+                    {{ loop.index }}. {{ option }}
+                </button>
+                {% endfor %}
+                <input type="hidden" name="answer" id="selected-answer" value="">
+            </div>
+        </form>
+    </div>
+    
+    <div class="flex justify-between items-center">
+        <div class="text-gray-400">
+            Puan: <span class="font-bold text-yellow-400">{{ score }}</span>
+        </div>
+        <button 
+            id="next-btn" 
+            class="btn-primary font-bold py-2 px-6 rounded-full hidden bg-yellow-500 hover:bg-yellow-600 text-gray-900 transition-colors duration-200"
+            onclick="submitAnswer()"
+        >
+            {% if question_number < 5 %}
+                Sonraki Soru →
+            {% else %}
+                Sonuçları Gör →
+            {% endif %}
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let selectedAnswer = null;
+    
+    function selectOption(button, answer) {
+        // Remove selected class from all buttons
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.classList.remove('bg-yellow-600', 'text-white', 'ring-2', 'ring-yellow-400', 'scale-105');
+            btn.classList.add('bg-gray-700', 'hover:bg-gray-600');
+        });
+        
+        // Add selected class to clicked button
+        button.classList.remove('bg-gray-700', 'hover:bg-gray-600');
+        button.classList.add('bg-yellow-600', 'text-white', 'ring-2', 'ring-yellow-400', 'scale-105');
+        
+        // Add a subtle animation
+        button.animate([
+            { transform: 'scale(1)' },
+            { transform: 'scale(1.03)' },
+            { transform: 'scale(1)' }
+        ], {
+            duration: 200,
+            iterations: 1
+        });
+        
+        // Enable next button
+        document.getElementById('next-btn').classList.remove('hidden');
+        
+        // Set the selected answer in the hidden input
+        document.getElementById('selected-answer').value = answer;
+    }
+    
+    function submitAnswer() {
+        const selectedAnswer = document.getElementById('selected-answer').value;
+        if (!selectedAnswer) {
+            alert('Lütfen bir cevap seçin!');
+            return;
+        }
+
+        // Disable buttons to prevent double submission
+        document.querySelectorAll('button').forEach(btn => {
+            btn.disabled = true;
+        });
+        
+        // Show loading state
+        const nextBtn = document.getElementById('next-btn');
+        nextBtn.innerHTML = 'Yükleniyor...';
+        nextBtn.classList.add('opacity-50');
+
+        // Submit the form
+        const formData = new FormData();
+        formData.append('question_id', '{{ question.id }}');
+        formData.append('answer', selectedAnswer);
+        
+        fetch("{{ url_for('check_answer') }}", {
+            method: 'POST',
+            body: new URLSearchParams(formData),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            if (data.redirect) {
+                window.location.href = data.redirect;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Bir hata oluştu: ' + error.message);
+            // Re-enable buttons
+            document.querySelectorAll('button').forEach(btn => {
+                btn.disabled = false;
+            });
+            nextBtn.innerHTML = '{{ "Sonraki Soru →" if question_number < 5 else "Sonuçları Gör →" }}';
+            nextBtn.classList.remove('opacity-50');
+        });
+    }
+</script>
+{% endblock %}
